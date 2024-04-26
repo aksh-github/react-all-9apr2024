@@ -1,0 +1,34 @@
+.form-example .formInput {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  margin: 10px 0;
+}
+
+.form-example input {
+  padding: 10px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+.form-example input:focus {
+  border: 1px solid blue;
+}
+
+.form-example label {
+  font-size: 12px;
+  color: gray;
+  display: flex;
+}
+
+.form-example .errorText {
+  font-size: 12px;
+  padding: 3px;
+  color: red;
+  /* display: none; */
+}
+
+.form-example .error {
+  border: 1px solid red;
+}

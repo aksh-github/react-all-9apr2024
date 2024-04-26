@@ -1,0 +1,110 @@
+{
+  "template": {
+    "version": "1.0",
+    "ch": [
+      {
+        "div": {
+          "className": "chat-container",
+          "ch": [
+            {
+              "header": {
+                "ch": [
+                  {
+                    "div": {
+                      "ch": [
+                        "Room: {props.room}"
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "div": {
+                "className": "chat-row",
+                "ch": [
+                  {
+                    "div": {
+                      "className": "messages",
+                      "ch":[
+                        {
+                          "For": {
+                            "custom": {"each":"${@g.messages}","as":"div"},
+                            "ch": [
+                              {
+                                "div": {
+                                  "className": "me  w3-animate-bottom",
+                                  "custom": "{\"hide\": {\"!=\": [\"me\", \"${@l.from}\"]}}",
+                                  "ch": [
+                                    {
+                                      "span": {
+                                        "ch": [
+                                          "${@l.message}"
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "div": {
+                                  "className": "other  w3-animate-top",
+                                  "custom": "{\"hide\": {\"==\": [\"me\", \"${@l.from}\"]}}",
+                                  "ch": [
+                                    {
+                                      "p": {
+                                        "ch": ["${@l.from}"]
+                                      }
+                                    },
+                                    {
+                                      "span": {
+                                        "ch": [
+                                          "${@l.message}"
+                                        ]
+                                      }
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "footer": {
+                "ch": [
+                  {
+                    "textarea": {
+                      "name": "txtmsg",
+                      "rows": "8",
+                      "placeholder": "Type your message...",
+                      "ch": []
+                    }
+                  },
+                  {
+                    "button": {
+                      "disabled": "${@g.sendBtnFlag}",
+                      "ch": [
+                        {
+                          "div": {
+                            "className": "wrapper",
+                            "ch": ["✈️"]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

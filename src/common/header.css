@@ -1,0 +1,16 @@
+.header {
+  padding: 1em;
+  background: #ddd;
+  width: 100%;
+  /* position: absolute;
+  top: 0; */
+}
+
+.main-menu {
+  display: flex;
+  overflow: auto;
+}
+
+.main-menu li {
+  padding-right: 1em;
+}

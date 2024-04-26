@@ -1,0 +1,41 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE doc [
+<!ENTITY js PUBLIC "js" "http://localhost:3000/templ.xml">
+<!ENTITY dyn
+         PUBLIC "//template"
+         "http://localhost:3000/templ.xml">
+<!ENTITY pClass "Jo Smith">
+]>
+<template version="1.0">
+  <div className="chat-container">
+  <header>
+    <div>Room: {props.room}</div>
+  </header>
+  <div className="chat-row">
+    <!--ChatMessages custom='{"fetchFrom":"./ChatMessages2"}' /-->
+    <div className="messages">
+      <For custom='{"each":"${@g.messages}","as":"div"}'>
+        <div>
+        <div className="me  w3-animate-bottom"  custom='{"hide": {"!=": ["me", "${@l.from}"]}}'>          
+          <span>${@l.message}</span>
+        </div> 
+        <div className="other  w3-animate-top"  custom='{"hide": {"==": ["me", "${@l.from}"]}}'>
+          <p>${@l.from}</p>
+          <span>${@l.message}</span>
+        </div>    
+      </div>            
+      </For>
+    </div>
+  </div>
+  <footer>
+    <textarea
+      name="txtmsg"
+      rows="8"
+      placeholder="Type your message..."      
+    ></textarea>
+    <button disabled="${@g.sendBtnFlag}">
+      <div className="wrapper">✈️</div>
+    </button>
+  </footer>
+</div>
+  </template>

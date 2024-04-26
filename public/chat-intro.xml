@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE doc [
+<!ENTITY js PUBLIC "js" "http://localhost:3000/templ.xml">
+<!ENTITY dyn
+         PUBLIC "//template"
+         "http://localhost:3000/templ.xml">
+<!ENTITY pClass "Jo Smith">
+]>
+<template version="1.0">
+<div className="welcome">
+    <header><div>Solid Chat</div></header>
+    <input
+        value="${@g.user}"
+        name="txtuser"
+        placeholder="User name"      
+        max="10"        
+    />
+    <input
+        value="${@g.room}"
+        name="txtroom"
+        placeholder="Room name"            
+    />
+
+    <button name="btnGo" disabled="${@g.chatBtnFlag}">
+      Lets Chat
+    </button>
+  </div>
+  </template>
