@@ -32,7 +32,8 @@ const _inputs = [
     placeholder: "Enter Birthday",
     label: "Birthday",
     required: true,
-    pattern: "2024-01-01",
+    // pattern: "2024-01-01",
+    errorMessage: "DOB is required",
   },
   {
     id: 4,
@@ -97,6 +98,7 @@ const FormsExample = () => {
           <h1>Register</h1>
           {inputs.map((input) => (
             <FormInput
+              autoFocus={input.id === 1 ? true : false}
               classes={{
                 wrapper: "formInput",
                 input: "",

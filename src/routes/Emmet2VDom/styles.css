@@ -1,0 +1,11 @@
+.emmetvdom-page {
+  display: flex;
+}
+
+.emmetvdom-page .col {
+  flex: 1;
+}
+
+.emmetvdom-page .output {
+  padding: 2em;
+}

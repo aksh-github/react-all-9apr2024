@@ -1,0 +1,98 @@
+{
+  "form": {
+    "fields": [
+      {
+        "name": "selectAction",
+        "label": "Select Action",
+        "type": "select",
+        "options": [
+          {
+            "value": "",
+            "label": "Select Action"
+          },
+          {
+            "value": "Create",
+            "label": "Create"
+          },
+          {
+            "value": "Update",
+            "label": "Update"
+          },
+          {
+            "value": "Delete",
+            "label": "Delete"
+          }
+        ]
+      },
+      {
+        "name": "selectRegion",
+        "label": "Select Region",
+        "type": "select",
+        "options": [
+          {
+            "value": "",
+            "label": "Select Region"
+          },
+          {
+            "value": "Region 1",
+            "label": "Region 1"
+          },
+          {
+            "value": "Region-2",
+            "label": "Region 2"
+          },
+          {
+            "value": "Region 3",
+            "label": "Region 3"
+          }
+        ],
+        "validation": {
+          "required": true,
+          "pattern": "^[A-Za-z0-9 -]{3,16}$"
+        }
+      },
+      {
+        "name": "selectBusinessUnit",
+        "label": "Select Business Unit",
+        "type": "select",
+        "options": [
+          {
+            "value": "",
+            "label": "Select Business Unit"
+          },
+          {
+            "value": "Business Unit 1",
+            "label": "Business Unit 1"
+          },
+          {
+            "value": "Business Unit 2",
+            "label": "Business Unit 2"
+          },
+          {
+            "value": "Business Unit 3",
+            "label": "Business Unit 3"
+          }
+        ],
+        "validation": {
+          "required": true
+        }
+      },
+      {
+        "type": "textarea",
+        "name": "description",
+        "label": "Description",
+        "placeholder": "Enter description...",
+        "rows": "4",
+        "cols": "50",
+        "validation": {
+          "required": true
+        }
+      },
+      {
+        "type": "submit",
+        "name": "submit",
+        "label": "Submit"
+      }
+    ]
+  }
+}

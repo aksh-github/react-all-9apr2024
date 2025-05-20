@@ -1,0 +1,45 @@
+{
+  ".chat-container": [
+    {
+      "header": [
+        {
+          "div": ["Room: {props.room}"]
+        }
+      ]
+    },
+    {
+      ".chat-row": [
+        {
+          ".messages": [
+            {
+              "For[custom='{\"each\":\"{@g.messages}\", \"as\":\"div\"}']": [
+                {
+                  "div": [
+                    {
+                      ".me.w3-animate-bottom": [{ "span": "{{@l.message}}" }]
+                    },
+                    {
+                      ".other.w3-animate-top": [
+                        {
+                          "p": "{{@l.from}}"
+                        },
+                        {
+                          "span": "{{@l.message}}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "footer": [
+        "textarea[name='txtmsg' rows=8 placeholder='Type your message...']"
+      ]
+    }
+  ]
+}
