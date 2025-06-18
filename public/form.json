@@ -1,98 +1,170 @@
 {
   "form": {
+    "id": "exampleForm",
+    "className": "",
     "fields": [
       {
-        "name": "selectAction",
-        "label": "Select Action",
         "type": "select",
+        "label": "Use Case",
+        "name": "selectUsecase",
+        "value": "",
+        "error": "",
         "options": [
+          { "value": "", "label": "Select Use Case" },
+          { "value": "Agile", "label": "Agile" },
           {
+            "value": "Social Media Marketing",
+            "label": "Social Media Marketing"
+          }
+        ],
+        "required": true,
+        "validation": {
+          "minLength": 1,
+          "maxLength": 50
+        }
+      }
+    ],
+    "more": {
+      "Agile": {
+        "fields": [
+          {
+            "type": "select",
+            "label": "Action",
+            "name": "selectAction-ag",
+            "requestObjName": "action",
             "value": "",
-            "label": "Select Action"
+            "error": "",
+            "options": [
+              { "value": "", "label": "Select Action" },
+              {
+                "value": "User story generation",
+                "label": "User story generation"
+              },
+              { "value": "EPIC generation", "label": "EPIC generation" }
+            ],
+            "required": true,
+            "validation": {
+              "minLength": 1,
+              "maxLength": 50
+            }
           },
           {
-            "value": "Create",
-            "label": "Create"
+            "type": "select",
+            "label": "Region",
+            "name": "selectRegion-ag",
+            "requestObjName": "region",
+            "value": "",
+            "error": "",
+            "options": [
+              { "value": "", "label": "Select Region" },
+              { "value": "CA", "label": "Canada" },
+              { "value": "US", "label": "US" },
+              { "value": "ASIA", "label": "Asia" }
+            ],
+            "required": true,
+
+            "validation": {
+              "minLength": 1,
+              "maxLength": 50
+            }
           },
           {
-            "value": "Update",
-            "label": "Update"
-          },
-          {
-            "value": "Delete",
-            "label": "Delete"
+            "type": "select",
+            "label": "Business Unit",
+            "name": "selectBusinessUnit-ag",
+            "requestObjName": "business_unit",
+            "value": "",
+            "error": "",
+            "options": [
+              { "value": "", "label": "Select Business Unit" },
+              { "value": "Marketing", "label": "Marketing" }
+            ],
+            "required": true,
+            "validation": {
+              "minLength": 1,
+              "maxLength": 50
+            }
           }
         ]
       },
-      {
-        "name": "selectRegion",
-        "label": "Select Region",
-        "type": "select",
-        "options": [
+      "Social Media Marketing": {
+        "fields": [
           {
+            "type": "select",
+            "label": "Action",
+            "name": "selectAction",
+            "requestObjName": "action",
             "value": "",
-            "label": "Select Region"
+            "error": "",
+            "options": [
+              { "value": "", "label": "Select Action" },
+              { "value": "Generate Content", "label": "Generate Content" }
+            ],
+            "required": true,
+            "validation": {
+              "minLength": 1,
+              "maxLength": 50
+            }
           },
           {
-            "value": "Region 1",
-            "label": "Region 1"
+            "type": "select",
+            "label": "Region",
+            "name": "selectRegion",
+            "requestObjName": "region",
+            "value": "CA",
+            "error": "",
+            "options": [
+              { "value": "", "label": "Select Region" },
+              { "value": "CA", "label": "Canada" },
+              { "value": "US", "label": "US" },
+              { "value": "ASIA", "label": "Asia" }
+            ],
+            "required": true,
+
+            "validation": {
+              "minLength": 1,
+              "maxLength": 50
+            }
           },
           {
-            "value": "Region-2",
-            "label": "Region 2"
-          },
-          {
-            "value": "Region 3",
-            "label": "Region 3"
-          }
-        ],
-        "validation": {
-          "required": true,
-          "pattern": "^[A-Za-z0-9 -]{3,16}$"
-        }
-      },
-      {
-        "name": "selectBusinessUnit",
-        "label": "Select Business Unit",
-        "type": "select",
-        "options": [
-          {
+            "type": "select",
+            "label": "Business Unit",
+            "name": "selectBusinessUnit",
+            "requestObjName": "business_unit",
             "value": "",
-            "label": "Select Business Unit"
+            "error": "",
+            "options": [
+              { "value": "", "label": "Select Business Unit" },
+              { "value": "Marketing", "label": "Marketing" }
+            ],
+            "required": true,
+            "validation": {
+              "minLength": 1,
+              "maxLength": 50
+            }
           },
           {
-            "value": "Business Unit 1",
-            "label": "Business Unit 1"
-          },
-          {
-            "value": "Business Unit 2",
-            "label": "Business Unit 2"
-          },
-          {
-            "value": "Business Unit 3",
-            "label": "Business Unit 3"
+            "type": "select",
+            "label": "Content Type",
+            "name": "selectContentType",
+            "requestObjName": "platform_type",
+            "value": "",
+            "error": "",
+            "options": [
+              { "value": "", "label": "Select Content Type" },
+              { "value": "Instagram", "label": "Instagram" },
+              { "value": "X", "label": "X (Twitter)" },
+              { "value": "LinkedIn", "label": "LinkedIn" },
+              { "value": "Facebook", "label": "Facebook" }
+            ],
+            "required": true,
+            "validation": {
+              "minLength": 1,
+              "maxLength": 50
+            }
           }
-        ],
-        "validation": {
-          "required": true
-        }
-      },
-      {
-        "type": "textarea",
-        "name": "description",
-        "label": "Description",
-        "placeholder": "Enter description...",
-        "rows": "4",
-        "cols": "50",
-        "validation": {
-          "required": true
-        }
-      },
-      {
-        "type": "submit",
-        "name": "submit",
-        "label": "Submit"
+        ]
       }
-    ]
+    }
   }
 }

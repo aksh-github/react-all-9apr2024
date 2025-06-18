@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { loadUI, validate } from "./utils";
+import { isFormValid, loadUI, setGlobalUIJson, validate } from "./utils";
 
 const ErrorMessage = ({ name, error }) => {
   return (
@@ -18,8 +18,8 @@ const ErrorMessage = ({ name, error }) => {
 
 const Field = (props) => {
   // console.log("field", field);
-  const { field, fns, value, error } = props;
-  const { handleChange, validate, setError, submit } = fns;
+  const { field, fns, state } = props;
+  const { handleChange, validate, setError } = fns;
 
   switch (field.type) {
     case "text":
@@ -37,7 +37,7 @@ const Field = (props) => {
             name={field.name}
             placeholder={field.placeholder}
             required={field.required}
-            defaultValue={value}
+            defaultValue={state?.value}
             onBlur={(e) => {
               // console.log(validate(e.target.name, e.target.value));
               setError(field.name, validate(field.name, e.target.value));
@@ -47,7 +47,7 @@ const Field = (props) => {
           <ErrorMessage
             name={field.name}
             // error={formState?.[field.name]?.error}
-            error={error}
+            error={state?.error}
           />
         </div>
       );
@@ -60,10 +60,10 @@ const Field = (props) => {
           <select
             aria-label={field.label}
             className={"col-sm-101 " + field.className}
-            id={field.name}
+            id={field.id || field.name}
             name={field.name}
             required={field.required}
-            defaultValue={value}
+            defaultValue={state?.value}
             onBlur={(e) => {
               // console.log(validate(e.target.name, e.target.value));
               setError(field.name, validate(field.name, e.target.value));
@@ -80,7 +80,11 @@ const Field = (props) => {
               </option>
             ))}
           </select>
-          <ErrorMessage name={field.name} error={error} />
+          <ErrorMessage
+            name={field.name}
+            // error={formState?.[field.name]?.error}
+            error={state?.error}
+          />
         </div>
       );
     case "checkbox":
@@ -92,7 +96,7 @@ const Field = (props) => {
             id={field.name}
             name={field.name}
             required={field.required}
-            defaultValue={value}
+            defaultValue={state?.value}
             onBlur={(e) => {
               // console.log(validate(e.target.name, e.target.value));
               setError(field.name, validate(field.name, e.target.value));
@@ -105,7 +109,7 @@ const Field = (props) => {
           <ErrorMessage
             name={field.name}
             // error={formState?.[field.name]?.error}
-            error={error}
+            error={state?.error}
           />
         </div>
       );
@@ -122,7 +126,7 @@ const Field = (props) => {
             placeholder={field.placeholder}
             required={field.required}
             rows={field.rows}
-            defaultValue={value}
+            defaultValue={state?.value}
             onBlur={(e) => {
               // console.log(validate(e.target.name, e.target.value));
               setError(field.name, validate(field.name, e.target.value));
@@ -132,31 +136,18 @@ const Field = (props) => {
           <ErrorMessage
             name={field.name}
             // error={formState?.[field.name]?.error}
-            error={error}
+            error={state?.error}
           />
         </div>
-      );
-    case "submit":
-    case "button":
-      return (
-        <button
-          type={field.type}
-          id={field.name}
-          className={field.className}
-          key={field.name || "submit"}
-          name={field.name}
-          onClick={submit}
-        >
-          {field.label || "Submit"}
-        </button>
       );
     default:
       return null;
   }
 };
 
-const JsonForm = () => {
+const JsonForm = ({ setIsFormValid, setRequestObj }) => {
   const [uiJson, setUiJson] = React.useState(null);
+  const [formState, setFormState] = React.useState(null);
 
   useEffect(() => {
     loadUI("/form.json?t=" + Date.now())
@@ -169,19 +160,19 @@ const JsonForm = () => {
       });
   }, []);
 
-  const [formState, setFormState] = useState(null);
-
   useEffect(() => {
     if (uiJson) {
       setFormState(
         uiJson.form.fields.reduce((acc, field) => {
           acc[field.name] = {
-            value: field.value || "",
-            error: field.error || "",
+            value: formState?.[field.name]?.value || field.value || "",
+            error: formState?.[field.name]?.error || field.error || "",
           };
           return acc;
         }, {}),
       );
+
+      setGlobalUIJson(uiJson);
     }
   }, [uiJson]);
 
@@ -256,50 +247,85 @@ const JsonForm = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState((prevState) => {
-      // console.log("prevState", prevState);
-
       const err = validate(name, value);
-
-      // validateForm();
-
-      // console.log("err", err, formState);
-
-      if (err) {
-        setFormValid(false);
-      }
-
-      return {
+      const newState = {
         ...prevState,
         [name]: {
           value,
           error: err,
         },
       };
+
+      if (name === "selectUsecase") {
+        // modify the form json based on the selected use case
+
+        setUiJson((prevUiJson) => {
+          return {
+            ...prevUiJson,
+            form: {
+              ...prevUiJson.form,
+              fields: uiJson.form.fields
+                // .filter((field, idx) => idx === 0)
+                .filter((field) => field.name === "selectUsecase")
+                .concat(uiJson.form.more[value]?.fields || []),
+              id: "configForm" + Date.now(), // update form id to force re-render
+            },
+          };
+        });
+      }
+
+      // if no save button, then need to have setTimeout
+      setTimeout(() => {
+        // console.log("newState", newState);
+
+        const isValid = isFormValid(newState);
+        let reqObj = {};
+
+        if (isValid) {
+          const { fields } = uiJson.form;
+          Object.keys(fields).forEach((idx) => {
+            // console.log("field", idx, fields[idx]);
+
+            if (fields[idx].requestObjName)
+              reqObj[fields[idx].requestObjName] =
+                newState[fields[idx].name].value;
+          });
+
+          console.log("Form is valid now... Request Object", reqObj);
+          // setRequestObj(reqObj);
+        }
+        // setIsFormValid(isValid);
+      }, 0);
+
+      return newState;
     });
   };
 
   const setError = (id, error) => {
+    let newState;
+
     setFormState((prevState) => {
-      // console.log("prevState", prevState);
-
-      if (error) {
-        setFormValid(false);
-      }
-
-      return {
+      newState = {
         ...prevState,
         [id]: {
           value: prevState[id].value,
           error,
         },
       };
+
+      setTimeout(() => {
+        // setIsFormValid(isFormValid(newState));
+        console.log(isFormValid(newState));
+      }, 0);
+
+      return newState;
     });
   };
 
   return (
     <div>
       <h1>Json Based Form</h1>
-      <p>JsonForm valid: {formValid ? "true" : "false"}</p>
+      <p>JsonForm valid: {isFormValid(formState) ? "true" : "false"}</p>
       {uiJson && formState && (
         <form id={uiJson.form.id} className={uiJson.form.className}>
           {uiJson.form.fields.map((field, idx) => (
@@ -312,8 +338,9 @@ const JsonForm = () => {
                 setError,
                 submit: handleSubmit,
               }}
-              value={formState[field.name]?.value}
-              error={formState[field.name]?.error}
+              // value={formState[field.name]?.value}
+              // error={formState[field.name]?.error}
+              state={formState[field.name] || field}
             />
           ))}
         </form>
